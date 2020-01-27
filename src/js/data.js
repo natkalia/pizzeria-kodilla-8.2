@@ -13,7 +13,7 @@ dataSource.products = {
   breakfast: {
     class: 'small',
     name: 'Zia Giulia\'s Breakfast',
-    price: 9,
+    price: 1,
     description: 'There\'s no better way to start your day than indulging yourself with a cup of fresh Italian coffee and crispy waffels. Made just for you on the spot, this breakfast combo has been our guests\' favorite for over 50 years.',
     images: [
       '<img class="active" src="images/breakfast.svg">',
@@ -33,7 +33,7 @@ dataSource.products = {
   },
   pizza: {
     name: 'Nonna Alba\'s Pizza',
-    price: 20,
+    price: 10,
     description: 'The true taste of Italy &ndash; homemade pizza as prepared by our grandmothers in old-fashoned brick ovens. Choose your favorite topping and enjoy your comfort food! All ingredients come straight from eco-friendly, trusted farms in the Italian countryside.',
     images: [
       '<img class="active" src="images/pizza/crust.svg">',
@@ -83,7 +83,7 @@ dataSource.products = {
   },
   salad: {
     name: 'Nonno Alberto\'s Salad',
-    price: 9,
+    price: 4,
     description: 'A delicious salad made of fresh, home-grown products on a crispy lettuce base.',
     images: [
       '<img class="active" src="images/salad/plate.svg">',
