@@ -57,7 +57,10 @@
       this.id = id;
       this.data = data;
       this.renderInMenu();
+      this.getElements();
       this.initAccordion();
+      this.initOrderForm();
+      this.processOrder();
     }
     renderInMenu() {
       /* generate html for product */
@@ -71,6 +74,13 @@
 
       /* insert new DOM element to found menu container */
       menuContainer.appendChild(this.element);
+    }
+    getElements(){
+      this.accordionTrigger = this.element.querySelector(select.menuProduct.clickable);
+      this.form = this.element.querySelector(select.menuProduct.form);
+      this.formInputs = this.form.querySelectorAll(select.all.formInputs);
+      this.cartButton = this.element.querySelector(select.menuProduct.cartButton);
+      this.priceElem = this.element.querySelector(select.menuProduct.priceElem);
     }
     initAccordion() {
       /* find the clickable trigger (the element that should react to clicking) */
@@ -92,9 +102,55 @@
           }
         });
       });
-
     }
+    initOrderForm() {
+      // console.log('initOrderForm', this);
+      this.form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.processOrder();
+      });
 
+      for(let input of this.formInputs){
+        input.addEventListener('change', () => {
+          this.processOrder();
+        });
+      }
+
+      this.cartButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.processOrder();
+      });
+    }
+    processOrder() {
+      const formData = utils.serializeFormToObject(this.form);
+
+      /* get initial total price from data object of this product,
+      to be replaced with calculation of price from data object */
+      let price = this.data.price;
+
+      /* loop through params in data object of current product - can be one or more params */
+      let params = this.data.params;
+      for (let param in params) {
+
+        /* get options from current param in current product and loop through them */
+        const options = params[param].options;
+        for (let option in options) {
+
+          /* compare each option from options in data object if user checked it in user form */
+          const ifChecked = formData.hasOwnProperty(param) && formData[param].includes(option);
+          const ifDefault = options[option].hasOwnProperty('default') && options[option].default;
+
+          /* increase total price by option's price, if option is checked but not default in data object,
+          or decrease if option is not checked but it is marked as default in data object */
+          if (ifChecked && !ifDefault) {
+            price += options[option].price;
+          } else if (!ifChecked && ifDefault) {
+            price -= options[option].price;
+          }
+        }
+      }
+      this.priceElem.innerHTML = price;
+    }
   }
 
   const app = {
