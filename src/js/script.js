@@ -151,10 +151,10 @@
 
           /* images feature */
           const image = this.imageWrapper.querySelector(`.${param}-${option}`);
-          if (ifChecked && image !== null) {
-            image.classList.add(classNames.menuProduct.imageVisible);
-          } else if (!ifChecked && image !== null) {
-            image.classList.remove(classNames.menuProduct.imageVisible);
+          if (image) {
+            ifChecked ?
+              image.classList.add(classNames.menuProduct.imageVisible) :
+              image.classList.remove(classNames.menuProduct.imageVisible);
           }
         }
       }
