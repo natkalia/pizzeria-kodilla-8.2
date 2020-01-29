@@ -43,6 +43,10 @@ input, select {
   margin-bottom: $base-size;
   user-select: none;
 
+  @include breakpoint(mobileonly) {
+    display: inline-block;
+  }
+
   label {
     cursor: pointer;
   }

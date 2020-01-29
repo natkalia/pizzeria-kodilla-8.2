@@ -15,6 +15,9 @@
     font-family: $font-header;
     font-size: 22px;
     cursor: pointer;
+    @include breakpoint(mobileonly) {
+      @include flex(column, space-between, space-between);
+    }
   }
 
   &__name {
@@ -22,6 +25,10 @@
     margin: 0;
     font-weight: $font-semibold;
     text-transform: uppercase;
+    @include breakpoint(mobileonly) {
+      margin: 0 auto;
+    }
+
   }
 
   &__icon {
@@ -31,6 +38,10 @@
     top: $base-size;
     font-size: ($base-size * 1.5);
     transition: $transition;
+    @include breakpoint(mobileonly) {
+      right: (-$base-size * 2);
+      top: $base-size;
+    }
   }
 
   &__base-price {
@@ -45,6 +56,9 @@
     @include flex(row, center, space-between);
     @include accordion-closed();
     animation: flipdown 0.5s ease both;
+    @include breakpoint(mobileonly) {
+      @include flex(column, space-between, space-between);
+    }
   }
 
   &__params {
@@ -64,12 +78,20 @@
     width: calc(100% - 400px);
     opacity: 0;
     transition: opacity 200ms;
+    @include breakpoint(mobileonly) {
+      order: 2;
+      @include flex(column, center, space-between);
+    }
   }
 
   &__total-price {
     font-size: 14px;
     font-weight: $font-bold;
     text-transform: uppercase;
+    @include breakpoint(mobileonly) {
+      font-size: 16px;
+    }
+
   }
 
   &__images {
@@ -78,6 +100,10 @@
     height: 350px;
     opacity: 0;
     transition: opacity 200ms;
+
+    @include breakpoint(mobileonly) {
+      order: 1;
+    }
 
     &.small {
       width: 220px;
@@ -89,6 +115,10 @@
       height: auto;
       opacity: 0;
       transition: opacity 500ms;
+
+      @include breakpoint(mobileonly) {
+        height: 100%;
+      }
 
       &.active {
         opacity: 1;
@@ -122,6 +152,10 @@
     text-align: center;
     margin: 0 ($base-size / 2);
     padding: 0;
+  }
+
+  @include breakpoint(mobileonly) {
+    @include flex(row, center, space-between);
   }
 
 }
