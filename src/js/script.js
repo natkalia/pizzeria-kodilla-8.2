@@ -60,6 +60,7 @@
       this.getElements();
       this.initAccordion();
       this.initOrderForm();
+      this.initAmountWidget();
       this.processOrder();
     }
     renderInMenu() {
@@ -82,6 +83,7 @@
       this.cartButton = this.element.querySelector(select.menuProduct.cartButton);
       this.priceElem = this.element.querySelector(select.menuProduct.priceElem);
       this.imageWrapper = this.element.querySelector(select.menuProduct.imageWrapper);
+      this.amountWidgetElem = this.element.querySelector(select.menuProduct.amountWidget);
     }
     initAccordion() {
       /* find the clickable trigger (the element that should react to clicking) */
@@ -122,6 +124,12 @@
         this.processOrder();
       });
     }
+    initAmountWidget() {
+      this.amountWidget = new AmountWidget(this.amountWidgetElem);
+      this.amountWidgetElem.addEventListener('updated', () => {
+        this.processOrder();
+      });
+    }
     processOrder() {
       const formData = utils.serializeFormToObject(this.form);
 
@@ -158,7 +166,58 @@
           }
         }
       }
+
+      /* multiply price by amount */
+      price *= this.amountWidget.value;
+
+      /* show price in html element of product */
       this.priceElem.innerHTML = price;
+    }
+  }
+
+  class AmountWidget {
+    constructor(element) {
+      this.getElements(element);
+      this.input.value = settings.amountWidget.defaultValue;
+      this.setValue(this.input.value);
+      this.initActions();
+    }
+    getElements(element) {
+      this.element = element;
+      this.input = this.element.querySelector(select.widgets.amount.input);
+      this.linkDecrease = this.element.querySelector(select.widgets.amount.linkDecrease);
+      this.linkIncrease = this.element.querySelector(select.widgets.amount.linkIncrease);
+    }
+    setValue(value) {
+      const newValue = parseInt(value);
+      /* check if amount in input from user is a new value and if in minmax range */
+      const validateAmount = (newValue !== this.value) &&
+                             (newValue >= settings.amountWidget.defaultMin) &&
+                             (newValue <= settings.amountWidget.defaultMax);
+      /* if yes then change value and input value */
+      if (validateAmount) {
+        this.value = newValue;
+        this.announce();
+      }
+      /* if not then leave old value */
+      this.input.value = this.value;
+    }
+    initActions() {
+      this.input.addEventListener('change', () => {
+        this.setValue(this.input.value);
+      });
+      this.linkDecrease.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.setValue(this.value - 1);
+      });
+      this.linkIncrease.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.setValue(this.value + 1);
+      });
+    }
+    announce() {
+      const event = new Event('updated');
+      this.element.dispatchEvent(event);
     }
   }
 
