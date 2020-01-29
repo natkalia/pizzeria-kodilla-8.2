@@ -157,7 +157,7 @@
       }
 
       /* multiply price by amount */
-      price *= this.amountWidget.value;
+      price *= this.amountWidget.getAmountValue;
 
       /* show price in html element of product */
       this.priceElem.innerHTML = price;
@@ -169,7 +169,7 @@
       this.getElements(element);
       /* get default amount value from attribute in amount widget */
       this.input.value = this.element.getAttribute('data-default');
-      this.setValue(this.input.value);
+      this.setAmountValue = this.input.value;
       this.initActions();
     }
     getElements(element) {
@@ -178,7 +178,10 @@
       this.linkDecrease = this.element.querySelector(select.widgets.amount.linkDecrease);
       this.linkIncrease = this.element.querySelector(select.widgets.amount.linkIncrease);
     }
-    setValue(value) {
+
+    /* setter */
+    set setAmountValue(value){
+
       /* get minmax values from html attributes */
       const defaultMax = this.element.getAttribute('data-max');
       const defaultMin = this.element.getAttribute('data-min');
@@ -187,28 +190,34 @@
       const newValue = parseInt(value);
 
       /* check if amount in input from user is a new value and if in minmax range */
-      const validateAmount = (newValue !== this.value) &&
+      const validateAmount = (newValue !== this.getAmountValue) &&
                              (newValue >= defaultMin) &&
                              (newValue <= defaultMax);
       /* if yes then change value and input value */
       if (validateAmount) {
-        this.value = newValue;
+        this._value = newValue;
         this.announce();
       }
       /* if not then leave old value */
-      this.input.value = this.value;
+      this.input.value = this._value;
     }
+
+    /* getter */
+    get getAmountValue() {
+      return this._value;
+    }
+
     initActions() {
       this.input.addEventListener('change', () => {
-        this.setValue(this.input.value);
+        this.setAmountValue = this.input.value;
       });
       this.linkDecrease.addEventListener('click', (e) => {
         e.preventDefault();
-        this.setValue(this.value - 1);
+        this.setAmountValue = this.getAmountValue - 1;
       });
       this.linkIncrease.addEventListener('click', (e) => {
         e.preventDefault();
-        this.setValue(this.value + 1);
+        this.setAmountValue = this.getAmountValue + 1;
       });
     }
     announce() {
