@@ -5,6 +5,9 @@
 
   &__wrapper {
     position: relative;
+    @include breakpoint(mobileonly) {
+      @include flex(column, center, space-between);
+	  }
   }
 
 }

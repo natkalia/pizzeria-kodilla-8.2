@@ -11,6 +11,12 @@
   box-shadow: 0 0 $base-size rgba(0, 0, 0, 0.2);
   z-index: 9999;
 
+  @include breakpoint(mobileonly) {
+    @include flex(column, space-between, center);
+    position: relative;
+    width: 50%;
+  }
+
   &.active {
     .cart__content {
       @include accordion-open();
