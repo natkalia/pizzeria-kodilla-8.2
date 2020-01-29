@@ -10,6 +10,7 @@
   border-radius: $radius;
 
   &__header {
+    @include flex(row, center, space-between);
     margin-bottom: ($base-size * 2);
     font-family: $font-header;
     font-size: 22px;
