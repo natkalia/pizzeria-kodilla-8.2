@@ -40,14 +40,6 @@
     },
   };
 
-  const settings = {
-    amountWidget: {
-      defaultValue: 1,
-      defaultMin: 1,
-      defaultMax: 9,
-    }
-  };
-
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
@@ -107,18 +99,15 @@
       });
     }
     initOrderForm() {
-      // console.log('initOrderForm', this);
       this.form.addEventListener('submit', (e) => {
         e.preventDefault();
         this.processOrder();
       });
-
       for(let input of this.formInputs){
         input.addEventListener('change', () => {
           this.processOrder();
         });
       }
-
       this.cartButton.addEventListener('click', (e) => {
         e.preventDefault();
         this.processOrder();
@@ -178,7 +167,8 @@
   class AmountWidget {
     constructor(element) {
       this.getElements(element);
-      this.input.value = settings.amountWidget.defaultValue;
+      /* get default amount value from attribute in amount widget */
+      this.input.value = this.element.getAttribute('data-default');
       this.setValue(this.input.value);
       this.initActions();
     }
@@ -189,11 +179,17 @@
       this.linkIncrease = this.element.querySelector(select.widgets.amount.linkIncrease);
     }
     setValue(value) {
+      /* get minmax values from html attributes */
+      const defaultMax = this.element.getAttribute('data-max');
+      const defaultMin = this.element.getAttribute('data-min');
+
+      /* normalize new value to integer */
       const newValue = parseInt(value);
+
       /* check if amount in input from user is a new value and if in minmax range */
       const validateAmount = (newValue !== this.value) &&
-                             (newValue >= settings.amountWidget.defaultMin) &&
-                             (newValue <= settings.amountWidget.defaultMax);
+                             (newValue >= defaultMin) &&
+                             (newValue <= defaultMax);
       /* if yes then change value and input value */
       if (validateAmount) {
         this.value = newValue;
@@ -234,7 +230,6 @@
       console.log('*** App starting ***');
       console.log('thisApp:', this);
       console.log('classNames:', classNames);
-      console.log('settings:', settings);
       console.log('templates:', templates);
       this.initData();
       this.initMenu();
