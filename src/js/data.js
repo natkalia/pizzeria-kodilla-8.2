@@ -5,6 +5,11 @@ dataSource.products = {
     class: 'small',
     name: 'Zio Stefano\'s Doughnut',
     price: 9,
+    amount: {
+      defaultAmount: 1,
+      minAmount: 1,
+      maxAmount: 9,
+    },
     description: 'Treat yourself with this soft, freshly baked cookie. The recipe has been handed down from generation to generation in our family and it has won us several first place prizes in local competitions.',
     images: [
       '<img class="active" src="images/doughnut.svg">',
@@ -13,7 +18,12 @@ dataSource.products = {
   breakfast: {
     class: 'small',
     name: 'Zia Giulia\'s Breakfast',
-    price: 9,
+    price: 1,
+    amount: {
+      defaultAmount: 1,
+      minAmount: 1,
+      maxAmount: 9,
+    },
     description: 'There\'s no better way to start your day than indulging yourself with a cup of fresh Italian coffee and crispy waffels. Made just for you on the spot, this breakfast combo has been our guests\' favorite for over 50 years.',
     images: [
       '<img class="active" src="images/breakfast.svg">',
@@ -33,18 +43,26 @@ dataSource.products = {
   },
   pizza: {
     name: 'Nonna Alba\'s Pizza',
-    price: 20,
+    price: 10,
+    amount: {
+      defaultAmount: 1,
+      minAmount: 1,
+      maxAmount: 9,
+    },
     description: 'The true taste of Italy &ndash; homemade pizza as prepared by our grandmothers in old-fashoned brick ovens. Choose your favorite topping and enjoy your comfort food! All ingredients come straight from eco-friendly, trusted farms in the Italian countryside.',
     images: [
       '<img class="active" src="images/pizza/crust.svg">',
-      '<img class="active sauce-tomato" src="images/pizza/tomato-sauce.svg">',
-      '<img class="active sauce-cream" src="images/pizza/sour-cream.svg">',
-      '<img class="active toppings-salami" src="images/pizza/salami.svg">',
-      '<img class="active toppings-olives" src="images/pizza/olives.svg">',
-      '<img class="active toppings-redPeppers" src="images/pizza/red-peppers.svg">',
-      '<img class="active toppings-greenPeppers" src="images/pizza/green-peppers.svg">',
-      '<img class="active toppings-mushrooms" src="images/pizza/mushrooms.svg">',
-      '<img class="active toppings-basil" src="images/pizza/basil.svg">',
+      '<img class="sauce-tomato" src="images/pizza/tomato-sauce.svg">',
+      '<img class="sauce-cream" src="images/pizza/sour-cream.svg">',
+      '<img class="toppings-salami" src="images/pizza/salami.svg">',
+      '<img class="toppings-olives" src="images/pizza/olives.svg">',
+      '<img class="toppings-redPeppers" src="images/pizza/red-peppers.svg">',
+      '<img class="toppings-greenPeppers" src="images/pizza/green-peppers.svg">',
+      '<img class="toppings-mushrooms" src="images/pizza/mushrooms.svg">',
+      '<img class="toppings-basil" src="images/pizza/basil.svg">',
+      '<img class="toppings-bacon" src="images/pizza/bacon.svg">',
+      '<img class="toppings-corn" src="images/pizza/corn.svg">',
+      '<img class="toppings-pineapple" src="images/pizza/pineapple.svg">',
     ],
     params: {
       sauce: {
@@ -65,6 +83,9 @@ dataSource.products = {
           mushrooms: {label: 'Mushrooms', price: 2, default: true},
           basil: {label: 'Fresh basil', price: 2, default: true},
           salami: {label: 'Salami', price: 3},
+          bacon: {label: 'Bacon', price: 4},
+          corn: {label: 'Corn', price: 2},
+          pineapple: {label: 'Pineapple', price: 2},
         },
       },
       crust: {
@@ -83,17 +104,22 @@ dataSource.products = {
   },
   salad: {
     name: 'Nonno Alberto\'s Salad',
-    price: 9,
+    price: 4,
+    amount: {
+      defaultAmount: 1,
+      minAmount: 1,
+      maxAmount: 9,
+    },
     description: 'A delicious salad made of fresh, home-grown products on a crispy lettuce base.',
     images: [
       '<img class="active" src="images/salad/plate.svg">',
-      '<img class="active ingredients-cucumber" src="images/salad/cucumber.svg" style="z-index: 1;">',
-      '<img class="active ingredients-tomatoes" src="images/salad/tomatoes.svg" style="z-index: 2;">',
-      '<img class="active ingredients-olives" src="images/salad/salad-olives.svg" style="z-index: 3;">',
-      '<img class="active ingredients-feta" src="images/salad/feta.svg" style="z-index: 4;">',
-      '<img class="active ingredients-herbs" src="images/salad/herbs.svg" style="z-index: 5;">',
-      '<img class="active ingredients-cheese" src="images/salad/cheese.svg" style="z-index: 6;">',
-      '<img class="active ingredients-pepper" src="images/salad/black-pepper.svg" style="z-index: 7;">',
+      '<img class="ingredients-cucumber" src="images/salad/cucumber.svg" style="z-index: 1;">',
+      '<img class="ingredients-tomatoes" src="images/salad/tomatoes.svg" style="z-index: 2;">',
+      '<img class="ingredients-olives" src="images/salad/salad-olives.svg" style="z-index: 3;">',
+      '<img class="ingredients-feta" src="images/salad/feta.svg" style="z-index: 4;">',
+      '<img class="ingredients-herbs" src="images/salad/herbs.svg" style="z-index: 5;">',
+      '<img class="ingredients-cheese" src="images/salad/cheese.svg" style="z-index: 6;">',
+      '<img class="ingredients-pepper" src="images/salad/black-pepper.svg" style="z-index: 7;">',
     ],
     params: {
       ingredients: {
