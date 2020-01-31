@@ -40,6 +40,14 @@
     },
   };
 
+  const settings = {
+    amountWidget: {
+      defaultValue: 1,
+      defaultMin: 1,
+      defaultMax: 9,
+    }
+  };
+
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
@@ -167,9 +175,18 @@
   class AmountWidget {
     constructor(element) {
       this.getElements(element);
-      /* get default amount value from attribute in amount widget */
-      this.input.value = this.element.getAttribute('data-default');
+
+      /* check if there is default amount in product object inserted in html
+      if yes get default amount value from attribute in amount widget
+      if no get default amount value from settings */
+      const ifDefaultAmount = !!this.element.getAttribute('data-default');
+      this.input.value = ifDefaultAmount ?
+        this.element.getAttribute('data-default') :
+        settings.amountWidget.defaultValue;
+
+      /* set amount value in object from input */
       this.setAmountValue = this.input.value;
+
       this.initActions();
     }
     getElements(element) {
@@ -182,17 +199,22 @@
     /* setter */
     set setAmountValue(value){
 
-      /* get minmax values from html attributes */
-      const defaultMax = this.element.getAttribute('data-max');
-      const defaultMin = this.element.getAttribute('data-min');
+      /* check for boolean if product object has amount properties: default/min/max */
+      const ifMinAmount = !!this.element.getAttribute('data-min');
+      const ifMaxAmount = !!this.element.getAttribute('data-max');
+
+      /* if yes, use data from properties (as inserted in html attributes)
+      if no, use data from settings object */
+      const dataMinValue = ifMinAmount ? this.element.getAttribute('data-min') : settings.amountWidget.defaultMin;
+      const dataMaxValue = ifMaxAmount ? this.element.getAttribute('data-max') : settings.amountWidget.defaultMax;
 
       /* normalize new value to integer */
       const newValue = parseInt(value);
 
-      /* check if amount in input from user is a new value and if in minmax range */
+      /* check if amount in input from user is a new value and if in min/max range */
       const validateAmount = (newValue !== this.getAmountValue) &&
-                             (newValue >= defaultMin) &&
-                             (newValue <= defaultMax);
+                             (newValue >= dataMinValue) &&
+                             (newValue <= dataMaxValue);
       /* if yes then change value and input value */
       if (validateAmount) {
         this._value = newValue;
