@@ -145,6 +145,7 @@
       this.cartButton.addEventListener('click', (e) => {
         e.preventDefault();
         this.processOrder();
+        this.addToCart();
       });
     }
     initAmountWidget() {
@@ -155,6 +156,8 @@
     }
     processOrder() {
       const formData = utils.serializeFormToObject(this.form);
+
+      this.params = {};
 
       /* get initial total price from data object of this product,
       to be replaced with calculation of price from data object */
@@ -180,6 +183,19 @@
             price -= options[option].price;
           }
 
+          /* check for checked options - for cart */
+
+          if (ifChecked) {
+            if (!this.params[param]) {
+              this.params[param] = {
+                label: params[param].label,
+                options: {},
+              };
+            }
+            this.params[param].options[option] = options[option].label;
+          }
+          console.log(this);
+
           /* images feature */
           const image = this.imageWrapper.querySelector(`.${param}-${option}`);
           if (image) {
@@ -191,10 +207,16 @@
       }
 
       /* multiply price by amount */
-      price *= this.amountWidget.getAmountValue;
+      this.priceSingle = price;
+      this.price = this.priceSingle * this.amountWidget.getAmountValue;
 
       /* show price in html element of product */
       this.priceElem.innerHTML = price;
+    }
+    addToCart() {
+      this.name = this.data.name;
+      this.amount = this.amountWidget.getAmountValue;
+      app.cart.add(this);
     }
   }
 
@@ -291,6 +313,9 @@
       this.dom.toggleTrigger.addEventListener('click', () => {
         this.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
+    }
+    add(menuProduct) {
+      console.log('adding product', menuProduct);
     }
   }
 
