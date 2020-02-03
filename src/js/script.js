@@ -275,6 +275,25 @@
     }
   }
 
+  class Cart {
+    constructor(element) {
+      this.products = [];
+      this.getElements(element);
+      this.initActions();
+      console.log('new Cart ', this);
+    }
+    getElements(element) {
+      this.dom = {};
+      this.dom.wrapper = element;
+      this.dom.toggleTrigger = this.dom.wrapper.querySelector(select.cart.toggleTrigger);
+    }
+    initActions() {
+      this.dom.toggleTrigger.addEventListener('click', () => {
+        this.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
+    }
+  }
+
   const app = {
     initMenu: function(){
       for(let productData in this.data.products) {
@@ -284,13 +303,18 @@
     initData: function() {
       this.data = dataSource;
     },
-    init: function(){
+    initCart: function() {
+      const cartElem = document.querySelector(select.containerOf.cart);
+      this.cart = new Cart(cartElem);
+    },
+    init: function() {
       console.log('*** App starting ***');
       console.log('thisApp:', this);
       console.log('classNames:', classNames);
       console.log('templates:', templates);
       this.initData();
       this.initMenu();
+      this.initCart();
     },
   };
   app.init();
