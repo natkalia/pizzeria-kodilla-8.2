@@ -315,6 +315,8 @@
       });
     }
     add(menuProduct) {
+      console.log('menuProduct', menuProduct);
+
       /* generate html */
       const generatedHTML = templates.cartProduct(menuProduct);
 
@@ -323,6 +325,30 @@
 
       /* insert new DOM element to product list in cart */
       this.dom.productList.append(generatedDOM);
+
+      this.products.push(new CartProduct(menuProduct, generatedDOM));
+      console.log('thisCart products', this.products);
+    }
+  }
+
+  class CartProduct {
+    constructor(menuProduct, element) {
+      this.id = menuProduct.id;
+      this.name = menuProduct.name;
+      this.price = menuProduct.price;
+      this.priceSingle = menuProduct.priceSingle;
+      this.amount = menuProduct.amount;
+      /* quasi-clone object */
+      this.params = JSON.parse(JSON.stringify(menuProduct.params));
+      this.getElements(element);
+    }
+    getElements(element) {
+      this.dom = {};
+      this.dom.wrapper = element;
+      this.dom.price = this.dom.wrapper.querySelector(select.cartProduct.price);
+      this.dom.amountWidget = this.dom.wrapper.querySelector(select.cartProduct.amountWidget);
+      this.dom.edit = this.dom.wrapper.querySelector(select.cartProduct.edit);
+      this.dom.remove = this.dom.wrapper.querySelector(select.cartProduct.remove);
     }
   }
 
