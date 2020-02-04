@@ -194,7 +194,6 @@
             }
             this.params[param].options[option] = options[option].label;
           }
-          console.log(this);
 
           /* images feature */
           const image = this.imageWrapper.querySelector(`.${param}-${option}`);
@@ -308,6 +307,7 @@
       this.dom = {};
       this.dom.wrapper = element;
       this.dom.toggleTrigger = this.dom.wrapper.querySelector(select.cart.toggleTrigger);
+      this.dom.productList = this.dom.wrapper.querySelector(select.cart.productList);
     }
     initActions() {
       this.dom.toggleTrigger.addEventListener('click', () => {
@@ -315,7 +315,14 @@
       });
     }
     add(menuProduct) {
-      console.log('adding product', menuProduct);
+      /* generate html */
+      const generatedHTML = templates.cartProduct(menuProduct);
+
+      /* create DOM element based on  HTML code */
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
+
+      /* insert new DOM element to product list in cart */
+      this.dom.productList.append(generatedDOM);
     }
   }
 
