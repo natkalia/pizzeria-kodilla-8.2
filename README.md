@@ -28,6 +28,7 @@ Project is created with:
 - [ ] add more styling
 - [ ] add more RWD
 - [ ] verify/implement browser compatibility
+- [ ] add handling user clicking edit product button in Cart (now working as if it was a remove button)
 
 ## Project status
 In progress.

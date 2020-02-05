@@ -327,6 +327,10 @@
       this.dom.productList.addEventListener('remove', (e) => {
         this.remove(e.detail.cartProduct);
       });
+
+      this.dom.productList.addEventListener('edit', (e) => {
+        this.edit(e.detail.cartProduct);
+      });
     }
     add(menuProduct) {
 
@@ -369,6 +373,14 @@
       this.products.splice(index, 1);
       cartProduct.dom.wrapper.remove();
       /* update total amounts in cart after deleting product */
+      this.update();
+    }
+    edit(cartProduct) {
+      /* TODO: add logic for editing - now only copied from remove */
+      console.log('test edit');
+      const index = this.products.indexOf(cartProduct);
+      this.products.splice(index, 1);
+      cartProduct.dom.wrapper.remove();
       this.update();
     }
   }
@@ -416,9 +428,21 @@
       });
       this.dom.wrapper.dispatchEvent(event);
     }
+    edit() {
+      const thisCartProduct = this;
+      const event = new CustomEvent('edit', {
+        bubbles: true,
+        /* information about instance of product to be sent to event handler */
+        detail: {
+          cartProduct: thisCartProduct
+        },
+      });
+      this.dom.wrapper.dispatchEvent(event);
+    }
     initActions() {
       this.dom.edit.addEventListener('click', (e) => {
         e.preventDefault();
+        this.edit();
       });
 
       this.dom.remove.addEventListener('click', (e) => {
