@@ -323,6 +323,10 @@
       this.dom.productList.addEventListener('click', () => {
         this.update();
       });
+
+      this.dom.productList.addEventListener('remove', (e) => {
+        this.remove(e.detail.cartProduct);
+      });
     }
     add(menuProduct) {
 
@@ -359,6 +363,14 @@
         }
       }
     }
+    remove(cartProduct) {
+      /* find current product in array and delete it from array and cart html code */
+      const index = this.products.indexOf(cartProduct);
+      this.products.splice(index, 1);
+      cartProduct.dom.wrapper.remove();
+      /* update total amounts in cart after deleting product */
+      this.update();
+    }
   }
 
   class CartProduct {
@@ -372,6 +384,7 @@
       this.params = JSON.parse(JSON.stringify(menuProduct.params));
       this.getElements(element);
       this.initAmountWidget();
+      this.initActions();
     }
     getElements(element) {
       this.dom = {};
@@ -390,6 +403,27 @@
         this.amount = this.amountWidget.getAmountValue;
         this.price = this.priceSingle * this.amount;
         this.dom.price.innerHTML = this.price;
+      });
+    }
+    remove() {
+      const thisCartProduct = this;
+      const event = new CustomEvent('remove', {
+        bubbles: true,
+        /* information about instance of product to be sent to event handler */
+        detail: {
+          cartProduct: thisCartProduct
+        },
+      });
+      this.dom.wrapper.dispatchEvent(event);
+    }
+    initActions() {
+      this.dom.edit.addEventListener('click', (e) => {
+        e.preventDefault();
+      });
+
+      this.dom.remove.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.remove();
       });
     }
   }
