@@ -315,13 +315,13 @@
       this.dom.wrapper = element;
       this.dom.toggleTrigger = this.dom.wrapper.querySelector(select.cart.toggleTrigger);
       this.dom.productList = this.dom.wrapper.querySelector(select.cart.productList);
+      this.dom.form = this.dom.wrapper.querySelector(select.cart.form);
+      this.dom.phone = this.dom.wrapper.querySelector(select.cart.phone);
+      this.dom.address = this.dom.wrapper.querySelector(select.cart.address);
       this.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
       for(let key of this.renderTotalsKeys){
         this.dom[key] = this.dom.wrapper.querySelectorAll(select.cart[key]);
       }
-
-
-      this.dom.form = this.dom.wrapper.querySelector(select.cart.form);
     }
     initActions() {
       this.dom.toggleTrigger.addEventListener('click', () => {
@@ -342,7 +342,6 @@
 
       this.dom.form.addEventListener('submit', (e) => {
         e.preventDefault();
-        console.log('test');
         this.sendOrder();
       });
     }
@@ -391,7 +390,6 @@
     }
     edit(cartProduct) {
       /* TODO: add logic for editing - now only copied from remove */
-      console.log('test edit');
       const index = this.products.indexOf(cartProduct);
       this.products.splice(index, 1);
       cartProduct.dom.wrapper.remove();
@@ -400,9 +398,21 @@
     sendOrder() {
       const url = settings.db.url + '/' + settings.db.order;
       const payload = {
-        address: 'testing',
+        address: this.dom.address.value,
+        phone: this.dom.phone.value,
+        totalNumber: this.totalNumber,
+        deliveryFee: this.deliveryFee,
+        subtotalPrice: this.subtotalPrice,
         totalPrice: this.totalPrice,
+        params: this.params,
+        products: []
       };
+
+      this.products.forEach(product => {
+        const newProduct = product.getData();
+        payload.products.push(newProduct);
+      });
+
       const options = {
         method: 'POST',
         headers: {
@@ -412,7 +422,7 @@
       };
       fetch(url, options)
         .then(res => res.json()
-          .then(res => console.log(res)));
+          .then(res => console.log('order was sent to endpoint', res)));
     }
   }
 
@@ -481,6 +491,16 @@
         this.remove();
       });
     }
+    getData() {
+      const data = {
+        id: this.id,
+        amount: this.amount,
+        priceSingle: this.priceSingle,
+        price: this.price,
+        params: this.params
+      };
+      return data;
+    }
   }
 
   const app = {
@@ -498,10 +518,8 @@
         })
         .then(res => {
           this.data.products = res;
-          console.log(this.data.products);
           this.initMenu();
         });
-      console.log('this.data', JSON.stringify(this.data.products));
     },
     initCart: function() {
       const cartElem = document.querySelector(select.containerOf.cart);
