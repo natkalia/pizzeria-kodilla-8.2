@@ -308,6 +308,10 @@
       this.dom.wrapper = element;
       this.dom.toggleTrigger = this.dom.wrapper.querySelector(select.cart.toggleTrigger);
       this.dom.productList = this.dom.wrapper.querySelector(select.cart.productList);
+      this.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
+      for(let key of this.renderTotalsKeys){
+        this.dom[key] = this.dom.wrapper.querySelectorAll(select.cart[key]);
+      }
     }
     initActions() {
       this.dom.toggleTrigger.addEventListener('click', () => {
@@ -330,6 +334,7 @@
       this.update();
     }
     update() {
+      /* calculate sub and total prices, delivery fee, for cart */
       this.totalNumber = 0;
       this.subtotalPrice = 0;
       for (let product of this.products) {
@@ -338,6 +343,13 @@
       }
       this.totalPrice = this.subtotalPrice + this.deliveryFee;
       console.log(this.totalNumber, this.subtotalPrice, this.deliveryFee,this.totalPrice);
+
+      /* render prices in cart */
+      for (let key of this.renderTotalsKeys) {
+        for(let elem of this.dom[key]) {
+          elem.innerHTML = this[key];
+        }
+      }
     }
   }
 
