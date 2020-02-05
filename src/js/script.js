@@ -319,6 +319,9 @@
       for(let key of this.renderTotalsKeys){
         this.dom[key] = this.dom.wrapper.querySelectorAll(select.cart[key]);
       }
+
+
+      this.dom.form = this.dom.wrapper.querySelector(select.cart.form);
     }
     initActions() {
       this.dom.toggleTrigger.addEventListener('click', () => {
@@ -335,6 +338,12 @@
 
       this.dom.productList.addEventListener('edit', (e) => {
         this.edit(e.detail.cartProduct);
+      });
+
+      this.dom.form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        console.log('test');
+        this.sendOrder();
       });
     }
     add(menuProduct) {
@@ -387,6 +396,23 @@
       this.products.splice(index, 1);
       cartProduct.dom.wrapper.remove();
       this.update();
+    }
+    sendOrder() {
+      const url = settings.db.url + '/' + settings.db.order;
+      const payload = {
+        address: 'testing',
+        totalPrice: this.totalPrice,
+      };
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      };
+      fetch(url, options)
+        .then(res => res.json()
+          .then(res => console.log(res)));
     }
   }
 
@@ -472,7 +498,7 @@
         })
         .then(res => {
           this.data.products = res;
-          console.log(this.data.products)
+          console.log(this.data.products);
           this.initMenu();
         });
       console.log('this.data', JSON.stringify(this.data.products));
