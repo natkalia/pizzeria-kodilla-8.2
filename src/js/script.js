@@ -35,7 +35,7 @@
     cart: {
       productList: '.cart__order-summary',
       toggleTrigger: '.cart__summary',
-      totalNumber: `.cart__total-number`,
+      totalNumber: '.cart__total-number',
       totalPrice: '.cart__total-price strong, .cart__order-total .cart__order-price-sum strong',
       subtotalPrice: '.cart__order-subtotal .cart__order-price-sum strong',
       deliveryFee: '.cart__order-delivery .cart__order-price-sum strong',
@@ -291,7 +291,9 @@
       });
     }
     announce() {
-      const event = new Event('updated');
+      const event = new CustomEvent('updated', {
+        bubbles: true
+      });
       this.element.dispatchEvent(event);
     }
   }
@@ -317,6 +319,10 @@
       this.dom.toggleTrigger.addEventListener('click', () => {
         this.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
+
+      this.dom.productList.addEventListener('click', () => {
+        this.update();
+      });
     }
     add(menuProduct) {
 
@@ -334,20 +340,22 @@
       this.update();
     }
     update() {
-      /* calculate sub and total prices, delivery fee, for cart */
-      this.totalNumber = 0;
-      this.subtotalPrice = 0;
-      for (let product of this.products) {
+      const thisCart = this;
+      /* calculate total products, sub/total prices, delivery fee, for cart */
+      thisCart.totalNumber = 0;
+      thisCart.subtotalPrice = 0;
+      this.products.forEach(product => {
         this.subtotalPrice += product.price;
-        this.totalNumber += product.amount;
-      }
+        // TODO: check why sometimes string after update in cart
+        product.amount = parseInt(product.amount);
+        this.totalNumber = this.totalNumber + product.amount;
+      });
       this.totalPrice = this.subtotalPrice + this.deliveryFee;
-      console.log(this.totalNumber, this.subtotalPrice, this.deliveryFee,this.totalPrice);
 
-      /* render prices in cart */
+      /* render updated totals data in cart */
       for (let key of this.renderTotalsKeys) {
-        for(let elem of this.dom[key]) {
-          elem.innerHTML = this[key];
+        for (let element of this.dom[key]) {
+          element.innerHTML = this[key];
         }
       }
     }
@@ -378,7 +386,8 @@
       this.amountWidget.setAmountValue = this.amount;
       this.amountWidget.input.value = this.amount;
       this.dom.amountWidget.addEventListener('click', () => {
-        this.amount = this.amountWidget.input.value;
+        this.amountWidget.setAmountValue = this.amountWidget.input.value;
+        this.amount = this.amountWidget.getAmountValue;
         this.price = this.priceSingle * this.amount;
         this.dom.price.innerHTML = this.price;
       });
