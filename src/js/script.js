@@ -299,6 +299,7 @@
   class Cart {
     constructor(element) {
       this.products = [];
+      this.deliveryFee = settings.cart.defaultDeliveryFee;
       this.getElements(element);
       this.initActions();
     }
@@ -325,6 +326,18 @@
       this.dom.productList.append(generatedDOM);
 
       this.products.push(new CartProduct(menuProduct, generatedDOM));
+
+      this.update();
+    }
+    update() {
+      this.totalNumber = 0;
+      this.subtotalPrice = 0;
+      for (let product of this.products) {
+        this.subtotalPrice += product.price;
+        this.totalNumber += product.amount;
+      }
+      this.totalPrice = this.subtotalPrice + this.deliveryFee;
+      console.log(this.totalNumber, this.subtotalPrice, this.deliveryFee,this.totalPrice);
     }
   }
 
