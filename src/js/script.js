@@ -210,7 +210,7 @@
       this.price = this.priceSingle * this.amountWidget.getAmountValue;
 
       /* show price in html element of product */
-      this.priceElem.innerHTML = price;
+      this.priceElem.innerHTML = this.price;
     }
     addToCart() {
       this.name = this.data.name;
@@ -269,7 +269,7 @@
         this.announce();
       }
       /* if not then leave old value */
-      this.input.value = this._value;
+      this.input.value = this.getAmountValue;
     }
 
     /* getter */
@@ -301,7 +301,6 @@
       this.products = [];
       this.getElements(element);
       this.initActions();
-      console.log('new Cart ', this);
     }
     getElements(element) {
       this.dom = {};
@@ -315,7 +314,6 @@
       });
     }
     add(menuProduct) {
-      console.log('menuProduct', menuProduct);
 
       /* generate html */
       const generatedHTML = templates.cartProduct(menuProduct);
@@ -327,7 +325,6 @@
       this.dom.productList.append(generatedDOM);
 
       this.products.push(new CartProduct(menuProduct, generatedDOM));
-      console.log('thisCart products', this.products);
     }
   }
 
@@ -336,11 +333,12 @@
       this.id = menuProduct.id;
       this.name = menuProduct.name;
       this.price = menuProduct.price;
-      this.priceSingle = menuProduct.priceSingle;
       this.amount = menuProduct.amount;
+      this.priceSingle = menuProduct.priceSingle;
       /* quasi-clone object */
       this.params = JSON.parse(JSON.stringify(menuProduct.params));
       this.getElements(element);
+      this.initAmountWidget();
     }
     getElements(element) {
       this.dom = {};
@@ -350,10 +348,20 @@
       this.dom.edit = this.dom.wrapper.querySelector(select.cartProduct.edit);
       this.dom.remove = this.dom.wrapper.querySelector(select.cartProduct.remove);
     }
+    initAmountWidget() {
+      this.amountWidget = new AmountWidget(this.dom.amountWidget);
+      this.amountWidget.setAmountValue = this.amount;
+      this.amountWidget.input.value = this.amount;
+      this.dom.amountWidget.addEventListener('click', () => {
+        this.amount = this.amountWidget.input.value;
+        this.price = this.priceSingle * this.amount;
+        this.dom.price.innerHTML = this.price;
+      });
+    }
   }
 
   const app = {
-    initMenu: function(){
+    initMenu: function() {
       for(let productData in this.data.products) {
         new Product(productData, this.data.products[productData]);
       }
