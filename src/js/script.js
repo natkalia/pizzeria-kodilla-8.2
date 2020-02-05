@@ -71,6 +71,11 @@
     cart: {
       defaultDeliveryFee: 20,
     },
+    db: {
+      url: '//localhost:3131',
+      product: 'product',
+      order: 'order',
+    },
   };
 
   const templates = {
@@ -455,11 +460,22 @@
   const app = {
     initMenu: function() {
       for(let productData in this.data.products) {
-        new Product(productData, this.data.products[productData]);
+        new Product(this.data.products[productData].id, this.data.products[productData]);
       }
     },
     initData: function() {
-      this.data = dataSource;
+      this.data = {};
+      const url = settings.db.url + '/' + settings.db.product;
+      fetch(url)
+        .then(res => {
+          return res.json();
+        })
+        .then(res => {
+          this.data.products = res;
+          console.log(this.data.products)
+          this.initMenu();
+        });
+      console.log('this.data', JSON.stringify(this.data.products));
     },
     initCart: function() {
       const cartElem = document.querySelector(select.containerOf.cart);
@@ -471,7 +487,6 @@
       console.log('classNames:', classNames);
       console.log('templates:', templates);
       this.initData();
-      this.initMenu();
       this.initCart();
     },
   };
