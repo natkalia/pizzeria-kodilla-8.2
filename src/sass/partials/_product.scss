@@ -21,6 +21,7 @@
   }
 
   &__name {
+    @extend .h1;
     position: relative;
     margin: 0;
     font-weight: $font-semibold;
@@ -45,6 +46,7 @@
   }
 
   &__base-price {
+    @extend .h1;
     font-weight: $font-light;
   }
 
@@ -68,6 +70,7 @@
   }
 
   &__params-title {
+    @extend .h2;
     font-size: 14px;
     font-weight: $font-bold;
     text-transform: uppercase;

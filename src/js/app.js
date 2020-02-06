@@ -1,14 +1,14 @@
-import { settings, select, classNames, templates } from './settings.js';
+import { settings, select } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 
 const app = {
-  initMenu: function() {
+  initMenu() {
     for(let productData in this.data.products) {
       new Product(this.data.products[productData].id, this.data.products[productData]);
     }
   },
-  initData: function() {
+  initData() {
     this.data = {};
     const url = settings.db.url + '/' + settings.db.product;
     fetch(url)
@@ -20,20 +20,17 @@ const app = {
         this.initMenu();
       });
   },
-  initCart: function() {
+  initCart() {
     const cartElem = document.querySelector(select.containerOf.cart);
     this.cart = new Cart(cartElem);
     /* catch even add to cart and add product from event to cart */
     this.productList = document.querySelector(select.containerOf.menu);
     this.productList.addEventListener('add-to-cart', (e) => {
-      app.cart.add(e.detail.product);
+      this.cart.add(e.detail.product);
     });
   },
-  init: function() {
+  init() {
     console.log('*** App starting ***');
-    console.log('thisApp:', this);
-    console.log('classNames:', classNames);
-    console.log('templates:', templates);
     this.initData();
     this.initCart();
   },
