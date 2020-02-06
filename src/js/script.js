@@ -128,7 +128,7 @@
         this.element.classList.toggle('active');
         /* find all active products */
         const allActiveProducts = document.querySelectorAll(select.all.menuProductsActive);
-        /*  for each active product
+        /* for each active product
         if the active product isn't the element of thisProduct
         remove class active for the active product*/
         allActiveProducts.forEach(product => {
@@ -189,7 +189,6 @@
           }
 
           /* check for checked options - for cart */
-
           if (ifChecked) {
             if (!this.params[param]) {
               this.params[param] = {
@@ -363,6 +362,10 @@
       this.update();
     }
     update() {
+
+      /* check if any any products left in cart and if no, zero delivery fee */
+      this.ifDeliveryFee();
+
       /* calculate total products, sub/total prices, delivery fee, for cart */
       this.totalNumber = 0;
       this.subtotalPrice = 0;
@@ -437,6 +440,11 @@
         this.dom.formSubmit.classList.remove(classNames.cart.buttonDisabled);
         this.dom.formSubmit.removeAttribute('title');
       }
+    }
+    ifDeliveryFee() {
+      this.products.length <= 0 ?
+        this.deliveryFee = 0 :
+        this.deliveryFee = settings.cart.defaultDeliveryFee;
     }
   }
 
