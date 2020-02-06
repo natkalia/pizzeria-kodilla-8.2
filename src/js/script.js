@@ -155,9 +155,8 @@
     }
     initAmountWidget() {
       this.amountWidget = new AmountWidget(this.amountWidgetElem);
-      this.amountWidgetElem.addEventListener('updated', () => {
-        this.processOrder();
-      });
+      this.amountWidgetElem.addEventListener('updated', () =>
+        this.processOrder());
     }
     processOrder() {
       const formData = utils.serializeFormToObject(this.form);
@@ -283,13 +282,14 @@
     }
 
     initActions() {
-      this.input.addEventListener('change', () => {
-        this.setAmountValue = this.input.value;
-      });
+      this.input.addEventListener('change', () =>
+        this.setAmountValue = this.input.value);
+
       this.linkDecrease.addEventListener('click', (e) => {
         e.preventDefault();
         this.setAmountValue = this.getAmountValue - 1;
       });
+
       this.linkIncrease.addEventListener('click', (e) => {
         e.preventDefault();
         this.setAmountValue = this.getAmountValue + 1;
@@ -324,21 +324,18 @@
       }
     }
     initActions() {
-      this.dom.toggleTrigger.addEventListener('click', () => {
-        this.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
-      });
+      this.dom.toggleTrigger.addEventListener('click', () =>
+        this.dom.wrapper.classList.toggle(classNames.cart.wrapperActive));
 
       this.dom.productList.addEventListener('click', () => {
         this.update();
       });
 
-      this.dom.productList.addEventListener('remove', (e) => {
-        this.remove(e.detail.cartProduct);
-      });
+      this.dom.productList.addEventListener('remove', (e) =>
+        this.remove(e.detail.cartProduct));
 
-      this.dom.productList.addEventListener('edit', (e) => {
-        this.edit(e.detail.cartProduct);
-      });
+      this.dom.productList.addEventListener('edit', (e) =>
+        this.edit(e.detail.cartProduct));
 
       this.dom.form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -361,10 +358,9 @@
       this.update();
     }
     update() {
-      const thisCart = this;
       /* calculate total products, sub/total prices, delivery fee, for cart */
-      thisCart.totalNumber = 0;
-      thisCart.subtotalPrice = 0;
+      this.totalNumber = 0;
+      this.subtotalPrice = 0;
       this.products.forEach(product => {
         this.subtotalPrice += product.price;
         // TODO: check why sometimes string after update in cart
@@ -459,23 +455,21 @@
       });
     }
     remove() {
-      const thisCartProduct = this;
       const event = new CustomEvent('remove', {
         bubbles: true,
         /* information about instance of product to be sent to event handler */
         detail: {
-          cartProduct: thisCartProduct
+          cartProduct: this
         },
       });
       this.dom.wrapper.dispatchEvent(event);
     }
     edit() {
-      const thisCartProduct = this;
       const event = new CustomEvent('edit', {
         bubbles: true,
         /* information about instance of product to be sent to event handler */
         detail: {
-          cartProduct: thisCartProduct
+          cartProduct: this
         },
       });
       this.dom.wrapper.dispatchEvent(event);
