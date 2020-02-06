@@ -59,6 +59,7 @@
     },
     cart: {
       wrapperActive: 'active',
+      buttonDisabled: 'disabled',
     },
   };
 
@@ -309,6 +310,8 @@
       this.deliveryFee = settings.cart.defaultDeliveryFee;
       this.getElements(element);
       this.initActions();
+      /* check if any products left in cart and if to allow sending order */
+      this.ifSendOrder();
     }
     getElements(element) {
       this.dom = {};
@@ -316,6 +319,7 @@
       this.dom.toggleTrigger = this.dom.wrapper.querySelector(select.cart.toggleTrigger);
       this.dom.productList = this.dom.wrapper.querySelector(select.cart.productList);
       this.dom.form = this.dom.wrapper.querySelector(select.cart.form);
+      this.dom.formSubmit = this.dom.wrapper.querySelector(select.cart.formSubmit);
       this.dom.phone = this.dom.wrapper.querySelector(select.cart.phone);
       this.dom.address = this.dom.wrapper.querySelector(select.cart.address);
       this.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
@@ -339,7 +343,8 @@
 
       this.dom.form.addEventListener('submit', (e) => {
         e.preventDefault();
-        this.sendOrder();
+        /* additional validation to deny sending order if no products in cart */
+        this.products.length >= 1 ? this.sendOrder() : alert('Cannot send empty order');
       });
     }
     add(menuProduct) {
@@ -375,6 +380,9 @@
           element.innerHTML = this[key];
         }
       }
+
+      /* check if any products left in cart and if to allow sending order */
+      this.ifSendOrder();
     }
     remove(cartProduct) {
       /* find current product in array and delete it from array and cart html code */
@@ -419,6 +427,16 @@
       fetch(url, options)
         .then(res => res.json()
           .then(res => console.log('order was sent to endpoint', res)));
+    }
+    ifSendOrder() {
+      /* check if there are any products in cart left and add/remove disabled in button */
+      if (this.products.length <= 0) {
+        this.dom.formSubmit.classList.add(classNames.cart.buttonDisabled);
+        this.dom.formSubmit.setAttribute('title', 'Sorry, you cannot send an empty order');
+      } else {
+        this.dom.formSubmit.classList.remove(classNames.cart.buttonDisabled);
+        this.dom.formSubmit.removeAttribute('title');
+      }
     }
   }
 
