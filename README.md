@@ -14,7 +14,10 @@ Project is created with:
 * HTML
 * Sass for CSS
 * Javascript
-* Handlebars.js (templating engine)
+* Handlebars.js for templating engine [handlebars](https://handlebarsjs.com/)
+* flatpickr.js for datepicker in booking [flatpickr](https://flatpickr.js.org/)
+* rangeslider.js for slider in booking [rangeSlider](https://github.com/Stryzhevskyi/rangeSlider)
+* json-server for fake REST API to simulate backend [json-server](https://www.npmjs.com/package/json-server)
 * custom npm task runner
 
 ## Clean code
