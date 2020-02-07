@@ -129,14 +129,14 @@ class Product {
 
     /* multiply price by amount */
     this.priceSingle = price;
-    this.price = this.priceSingle * this.amountWidget.getAmountValue;
+    this.price = this.priceSingle * this.amountWidget.value;
 
     /* show price in html element of product */
     this.priceElem.innerHTML = this.price;
   }
   addToCart() {
     this.name = this.data.name;
-    this.amount = this.amountWidget.getAmountValue;
+    this.amount = this.amountWidget.value;
 
     // app.cart.add(this);
     const event = new CustomEvent('add-to-cart', {

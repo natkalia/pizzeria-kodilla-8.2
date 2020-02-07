@@ -24,11 +24,11 @@ class CartProduct {
   }
   initAmountWidget() {
     this.amountWidget = new AmountWidget(this.dom.amountWidget);
-    this.amountWidget.setAmountValue = this.amount;
-    this.amountWidget.input.value = this.amount;
+    this.amountWidget.value = this.amount;
+    this.amountWidget.dom.input.value = this.amount;
     this.dom.amountWidget.addEventListener('click', () => {
-      this.amountWidget.setAmountValue = this.amountWidget.input.value;
-      this.amount = this.amountWidget.getAmountValue;
+      this.amountWidget.value = this.amountWidget.dom.input.value;
+      this.amount = this.amountWidget.value;
       this.price = this.priceSingle * this.amount;
       this.dom.price.innerHTML = this.price;
     });
