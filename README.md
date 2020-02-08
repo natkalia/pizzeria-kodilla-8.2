@@ -29,9 +29,14 @@ Project is created with:
 
 ## Todo
 - [ ] add more styling
+
 - [ ] add more RWD
 - [ ] verify/implement browser compatibility
 - [ ] add handling user clicking edit product button in Cart (now working as if it was a remove button)
+- [ ] new feature: change logic for repeating events not to block available dates before start
+- [ ] new feature: move info for booking page (number and location of tables, starters)
+from handelbars template to fake API
+- [ ] new feature: set min/max number of people to be able to book given table
 
 ## Project status
 In progress.
