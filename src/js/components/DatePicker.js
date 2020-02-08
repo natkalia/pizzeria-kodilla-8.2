@@ -30,7 +30,6 @@ class DatePicker extends BaseWidget {
       onChange: function(selectedDates, dateStr) {
         /* use setter to set value from input in datepicker */
         this.value = dateStr;
-        console.log(this.value)
       },
     });
   }
