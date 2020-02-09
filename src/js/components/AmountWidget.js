@@ -8,9 +8,6 @@ class AmountWidget extends BaseWidget {
       settings.amountWidget.defaultValue);
     this.getElements(element);
 
-    /* TODO: think how to render initial value of input */
-    this.value = this.value;
-
     this.initActions();
   }
   getElements() {
