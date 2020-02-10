@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import { templates, select, settings, classNames } from '../settings.js';
 import AmountWidget from './AmountWidget.js';
 import DatePicker from './DatePicker.js';
@@ -10,6 +11,17 @@ class Booking {
     this.getElements();
     this.initWidgets();
     this.getData();
+    this.selectTable();
+    this.isTimeUpdated();
+  }
+  getElements() {
+    this.dom.peopleAmount = this.dom.wrapper.querySelector(select.booking.peopleAmount);
+    this.dom.hoursAmount = this.dom.wrapper.querySelector(select.booking.hoursAmount);
+    this.dom.datePicker = this.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
+    this.dom.datePicker.input = this.dom.wrapper.querySelector(select.widgets.datePicker.input);
+    this.dom.hourPicker = this.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
+    this.dom.hourPicker.input = this.dom.wrapper.querySelector(select.widgets.hourPicker.output);
+    this.dom.tables = this.dom.wrapper.querySelectorAll(select.booking.tables);
   }
   initWidgets() {
     this.peopleAmount = new AmountWidget(this.dom.peopleAmount);
@@ -161,18 +173,29 @@ class Booking {
     this.dom.wrapper = element;
     this.dom.wrapper.innerHTML = generatedHTML;
   }
-  getElements() {
-    this.dom.peopleAmount =
-      this.dom.wrapper.querySelector(select.booking.peopleAmount);
-    this.dom.hoursAmount =
-      this.dom.wrapper.querySelector(select.booking.hoursAmount);
-    this.dom.datePicker =
-      this.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
-    this.dom.hourPicker =
-      this.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
-    this.dom.tables =
-      this.dom.wrapper.querySelectorAll(select.booking.tables);
+  selectTable() {
+    this.dom.tables.forEach(() => addEventListener('click', (e) => {
+      const clickedTable = e.target;
+      clickedTable.classList.toggle(classNames.booking.tableSelected);
+    }));
   }
+  isTimeUpdated() {
+    /* if user resets date, reset table selection */
+    this.dom.datePicker.input.addEventListener('change', () => {
+      this.resetSelectedTables();
+    });
+    this.dom.hourPicker.addEventListener('updated', () => {
+      this.resetSelectedTables();
+    });
+  }
+  resetSelectedTables() {
+    this.dom.tables.forEach(table => {
+      table.classList.contains(classNames.booking.tableSelected) ?
+        table.classList.toggle(classNames.booking.tableSelected) :
+        null;
+    });
+  }
+
 }
 
 export default Booking;
