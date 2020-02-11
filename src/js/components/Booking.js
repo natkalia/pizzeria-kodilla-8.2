@@ -12,7 +12,12 @@ class Booking {
     this.initWidgets();
     this.getData();
     this.selectTable();
-    this.isTimeUpdated();
+  }
+  render(element) {
+    const generatedHTML = templates.bookingWidget();
+    this.dom = {};
+    this.dom.wrapper = element;
+    this.dom.wrapper.innerHTML = generatedHTML;
   }
   getElements() {
     this.dom.peopleAmount = this.dom.wrapper.querySelector(select.booking.peopleAmount);
@@ -22,6 +27,11 @@ class Booking {
     this.dom.hourPicker = this.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
     this.dom.hourPicker.input = this.dom.wrapper.querySelector(select.widgets.hourPicker.output);
     this.dom.tables = this.dom.wrapper.querySelectorAll(select.booking.tables);
+    this.dom.phone = this.dom.wrapper.querySelector(select.booking.phone);
+    this.dom.address = this.dom.wrapper.querySelector(select.booking.address);
+    this.dom.form = this.dom.wrapper.querySelector(select.booking.form);
+    this.dom.formSubmit = this.dom.wrapper.querySelector(select.booking.formSubmit);
+    this.dom.starters = this.dom.wrapper.querySelectorAll(select.booking.starters);
   }
   initWidgets() {
     this.peopleAmount = new AmountWidget(this.dom.peopleAmount);
@@ -54,8 +64,7 @@ class Booking {
     };
 
     const urls = {
-      /* endpoint for list of bookings
-      e.g. //localhost:3131/booking/date_gte */
+      /* endpoint for list of bookings */
       booking:       `${settings.db.url}/${settings.db.booking}?${params.booking.join('&')}`,
       /* endpoint for list of one off events */
       eventsCurrent: `${settings.db.url}/${settings.db.event}?${params.eventsCurrent.join('&')}`,
@@ -80,9 +89,9 @@ class Booking {
         ]);
       })
       .then(([bookings, eventsCurrent, eventsRepeat]) => {
-        // console.log(bookings);
-        // console.log(eventsCurrent);
-        // console.log(eventsRepeat);
+        // console.log('bookings from API', bookings);
+        // console.log('eventsCurrent from API', eventsCurrent);
+        // console.log('eventsRepeat from API', eventsRepeat);
         this.parseData(bookings, eventsCurrent, eventsRepeat);
       });
   }
@@ -98,12 +107,12 @@ class Booking {
       this.makeBooked(item.date, item.hour, item.duration, item.table);
     }
 
-    const minDate = this.datePicker.minDate;
+    /* iterate to book repeating events starting from its starting date */
     const maxDate = this.datePicker.maxDate;
-
     for(let item of eventsRepeat) {
-      if(item.repeat == 'daily') {
-        for(let loopDate = minDate; loopDate <= maxDate; loopDate = utils.addDays(loopDate, 1)) {
+      if(item.repeat === 'daily') {
+        let loopDate = new Date(item.date);
+        for(loopDate; loopDate <= maxDate; loopDate = utils.addDays(loopDate, 1)) {
           this.makeBooked(utils.dateToStr(loopDate), item.hour, item.duration, item.table);
         }
       }
@@ -122,12 +131,17 @@ class Booking {
     const startHour = utils.hourToNumber(hour);
 
     /* block number of 0.5 hours depending on duration of booking */
-    for(let hourBlock = startHour; hourBlock < startHour + duration; hourBlock += 0.5) {
+    for(
+      let hourBlock = startHour;
+      hourBlock < startHour + duration;
+      hourBlock += 0.5) {
       /* check if hour of event already exists in object booked
       if not create array with start hour */
+
       if(typeof this.booked[date][hourBlock] == 'undefined') {
         this.booked[date][hourBlock] = [];
       }
+
       /* assign booked table to hour, date */
       this.booked[date][hourBlock].push(table);
     }
@@ -165,19 +179,20 @@ class Booking {
         table.classList.remove(classNames.booking.tableBooked);
       }
     }
-
-  }
-  render(element) {
-    const generatedHTML = templates.bookingWidget();
-    this.dom = {};
-    this.dom.wrapper = element;
-    this.dom.wrapper.innerHTML = generatedHTML;
   }
   selectTable() {
-    this.dom.tables.forEach(() => addEventListener('click', (e) => {
-      const clickedTable = e.target;
-      clickedTable.classList.toggle(classNames.booking.tableSelected);
-    }));
+    for(let table of this.dom.tables) {
+      table.addEventListener('click', (e) => {
+        const clickedTable = e.target;
+        this.dom.tables.forEach(table => table.classList.remove('selected'));
+        if (!clickedTable.classList.contains('booked')) {
+          clickedTable.classList.add('selected');
+          this.table = clickedTable;
+        }
+      });
+    }
+    this.isTimeUpdated();
+    this.isBookingSubmitted();
   }
   isTimeUpdated() {
     /* if user resets date, reset table selection */
@@ -195,7 +210,71 @@ class Booking {
         null;
     });
   }
+  sendBooking() {
+    const url = settings.db.url + '/' + settings.db.booking;
 
+    /* get data from booking form and serialize for payload */
+    const date = this.dom.datePicker.input.value;
+    const hour = utils.numberToHour(this.hour);
+    const address = this.dom.address.value;
+    const phone = this.dom.phone.value;
+    const tableId = parseInt(this.table.getAttribute(settings.booking.tableIdAttribute));
+    const people = this.peopleAmount.value;
+    const duration = this.hoursAmount.value;
+
+    const starters = [];
+
+    this.dom.starters.forEach(starter =>
+      starter.checked ? starters.push(starter.value) : null);
+
+    const payload = {
+      date: date,
+      hour: hour,
+      address: address,
+      phone: phone,
+      table: tableId,
+      repeat: false,
+      ppl: people,
+      duration: duration,
+      starters: starters,
+    };
+
+    /* provide options for fetch */
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    /* send booking form to fake API */
+    fetch(url, options)
+      .then(res => res.json()
+        .then(res => console.log('booking was sent to endpoint', res)));
+
+    this.updateAfterBooking(
+      this.dom.datePicker.input.value,
+      utils.numberToHour(this.hour),
+      this.hoursAmount.value,
+      parseInt(this.table.getAttribute(settings.booking.tableIdAttribute)));
+  }
+  isBookingSubmitted() {
+    this.dom.form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.sendBooking();
+    });
+  }
+  isComplete() {
+    /* TODO: add additional validation to deny sending booking if incomplete
+    use it in isBookingSubmitted before sendBooking */
+  }
+  updateAfterBooking(date, hour, duration, table) {
+    /* mark new booked table as booked on restaurant map */
+    this.makeBooked(date, hour, duration, table);
+    this.updateDOM();
+    this.resetSelectedTables();
+  }
 }
 
 export default Booking;
