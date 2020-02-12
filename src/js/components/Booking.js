@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import { templates, select, settings, classNames } from '../settings.js';
 import AmountWidget from './AmountWidget.js';
 import DatePicker from './DatePicker.js';
@@ -39,7 +38,9 @@ class Booking {
     this.datePicker = new DatePicker(this.dom.datePicker);
     this.hourPicker = new HourPicker(this.dom.hourPicker);
 
-    this.dom.wrapper.addEventListener('updated', () => {
+    this.dom.wrapper.addEventListener('updated', (e) => {
+      /* TODO: do it better */
+      e.target.classList.contains('range-slider') ? null : this.bookHourPicker();
       this.updateDOM();
     });
   }
@@ -117,7 +118,47 @@ class Booking {
         }
       }
     }
+    this.bookHourPicker();
     this.updateDOM();
+  }
+  bookHourPicker() {
+    /* TODO: double check if no possibility to book same table
+    for the same hour second time because in this method
+    we refer to array length */
+
+    /* TODO: maybe refactor in other place that this.booked will already
+    before include empty string if there are no bookings
+    because now we need it here */
+
+    this.dom.slider = this.dom.wrapper.querySelector(select.widgets.hourPicker.slider);
+    const hours = this.booked[this.datePicker.value];
+    let gradient = [];
+
+    /* iterate over each hour to check which tables are booked for how long
+    and create color for gradient for each 0.5 hour */
+    for(let startHour = 12; startHour < 24; startHour += 0.5) {
+
+      /* TODO: Math.ceil for easier debugging,
+      can be deleted later on */
+      const fromPercent = Math.ceil(((startHour - 12) * 100) / 12);
+      const toPercent = Math.ceil((((startHour - 12) + 0.5) * 100) / 12);
+
+      if (!hours || !hours[startHour]) {
+        // console.log('no booking at ', startHour);
+        gradient.push(`green ${fromPercent}%, green ${toPercent}%`);
+      } else if(hours[startHour].length === 1) {
+        // console.log('1 table at', startHour);
+        gradient.push(`green ${fromPercent}%, green ${toPercent}%`);
+      } else if (hours[startHour].length === 2) {
+        // console.log('2 tables at ', startHour);
+        gradient.push(`yellow ${fromPercent}%, yellow ${toPercent}%`);
+      } else if (hours[startHour].length === 3) {
+        // console.log('3 tables at ', startHour);
+        gradient.push(`red ${fromPercent}%, red ${toPercent}%`);
+      }
+    }
+    gradient = gradient.join();
+    this.dom.slider.style.background = `linear-gradient(to right, ${gradient})`;
   }
   makeBooked(date, hour, duration, table) {
     /* check if date of event already exists in object booked
@@ -274,6 +315,8 @@ class Booking {
     this.makeBooked(date, hour, duration, table);
     this.updateDOM();
     this.resetSelectedTables();
+    /* update range slider to show effect of latest booking */
+    this.bookHourPicker();
   }
 }
 
