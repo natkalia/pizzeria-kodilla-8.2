@@ -20,10 +20,10 @@
           <h1 class="logo__title"><span>Mamma</span>Mia!</h1>
           <h2 class="logo__subtitle">the best homemade Italian food</h2>
         </div>
-        <div class="main-nav">
+        <!-- <div class="main-nav">
           <a href="#order">Order</a>
           <a href="#booking">Booking</a>
-        </div>
+        </div> -->
         <div id="cart" class="cart">
           <div class="cart__summary">
             <span class="cart__total-number">0</span>
@@ -62,12 +62,95 @@
   </header>
 
   <div id="pages">
+    <!-- START MAIN PAGE -->
+    <section id="main">
+      <div class="main-wrapper container">
+        <!-- START NAV SECTION -->
+        <div class="main-nav">
+          <div class="nav-wrapper">
+            <div class="img-wrapper">
+              <img src="images/main/pizza-1.jpg" alt="pizza"/>
+            </div>
+            <div class="link-wrapper">
+              <a href="#order">Order online</a>
+              <p class="link__description">Delicious food delivered to your door</p>
+            </div>
+          </div>
+          <div class="nav-wrapper">
+            <div class="img-wrapper">
+              <img src="images/main/pizza-2.jpg" alt="dinner"/>
+            </div>
+            <div class="link-wrapper">
+              <a href="#booking">Book a table</a>
+              <p class="link__description">You can do it online easily and fast</p>
+            </div>
+          </div>
+        </div>
+        <div class="hours">
+          <h3 class="hours__title">Opening hours:</h3>
+          <p class="hours__text">TUE-SUN, 12PM - 12 AM</p>
+        </div>
+        <!-- START GALLERY SECTION -->
+        <div class="main-gallery">
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-4.jpg" alt="pizza">
+          </div>
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-5.jpg" alt="pizza">
+          </div>
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-6.jpg" alt="pizza">
+          </div>
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-7.jpg" alt="pizza">
+          </div>
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-8.jpg" alt="pizza">
+          </div>
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-9.jpg" alt="pizza">
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- END MAIN PAGE -->
+
+    <!-- START ORDER PAGE -->
     <section id="order">
       <div id="product-list" class="product-list container"></div>
     </section>
+    <!-- END ORDER PAGE -->
+
+    <!-- START BOOKING PAGE -->
     <section id="booking">
       <div class="booking-wrapper container"></div>
     </section>
+    <!-- END BOOKING PAGE -->
   </div>
 
   <script id="template-booking-widget" type="text/x-handlebars-template">
