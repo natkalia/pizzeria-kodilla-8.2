@@ -1,6 +1,8 @@
 /* Variables */
 
+$color-darkest: #000;
 $color-dark: #333;
+$color-light-grey: #d3d3d3;
 $color-light: #fff;
 $color-main: #ff6b6b;
 $color-warning: #f6b93b;
@@ -109,6 +111,42 @@ $base-size: 12px;
   100% {
     transform-origin: top center;
     transform: rotateX(0deg);
+  }
+}
+
+@keyframes autoplay {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes moveFromBottom {
+  0% {
+    transform: translate(-50%, -100%);
+  }
+
+  25% {
+    transform: translate(-50%, -125%);
+  }
+
+  50% {
+    transform: translate(-50%, -150%);
+  }
+
+  75% {
+    transform: translate(-50%, -175%);
+  }
+
+  100% {
+    transform: translate(-50%, -200%);
   }
 }
 

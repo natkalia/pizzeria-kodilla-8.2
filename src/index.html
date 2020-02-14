@@ -20,7 +20,8 @@
           <h1 class="logo__title"><span>Mamma</span>Mia!</h1>
           <h2 class="logo__subtitle">the best homemade Italian food</h2>
         </div>
-        <div class="main-nav">
+        <div class="nav">
+          <a href="#main">Main</a>
           <a href="#order">Order</a>
           <a href="#booking">Booking</a>
         </div>
@@ -62,12 +63,144 @@
   </header>
 
   <div id="pages">
+    <!-- START MAIN PAGE -->
+    <section id="main">
+      <div class="main-wrapper container">
+        <!-- START NAV SECTION -->
+        <div class="main-nav">
+          <div class="nav-box"> <!-- order online -->
+            <img class="nav__image" src="images/main/pizza-1.jpg" alt="dinner"/>
+            <a class="nav__link" href="#order">Order online</a>
+            <p class="nav__description">Delicious food delivered to your door</p>
+          </div>
+          <div class="nav-box"> <!-- book a table -->
+            <img class="nav__image" src="images/main/pizza-2.jpg" alt="dinner"/>
+            <a class="nav__link" href="#booking">Book a table</a>
+            <p class="nav__description">You can do it online easily and fast</p>
+          </div>
+        </div>
+        <div class="nav-hours"> <!-- hours -->
+          <h3 class="nav-hours__title">Opening hours:</h3>
+          <p class="nav-hours__text">TUE-SUN, 12PM - 12 AM</p>
+        </div>
+        <!-- START CAROUSEL SECTION  -->
+        <div class="testimonials">
+
+          <div class="testimonials-img">
+            <img class="testimonials__image" src="images/main/pizza-3.jpg" alt="restaurant">
+          </div>
+
+          <div class="testimonials-carousel">
+            <div class="testimonials-items"> <!-- carousel items -->
+
+              <div class="testimonial-item active" id="slider-1">
+                <h3 class="testimonial__title">Great food and great wine!</h3>
+                <p class="testimonial__quote">
+                  Best pizza in town! Awesome crust with great tasting and fresh ingredients.
+                  I had the truffle-flavored pizza which really tasted like truffle.
+                </p>
+                <p class="testimonial__author">- Margaret Osbourne</p>
+              </div>
+
+              <div class="testimonial-item" id="slider-2">
+                <h3 class="testimonial__title">WOW! Amazing pizza!</h3>
+                <p class="testimonial__quote">
+                  There's a reason why this place is always packed, the pizza is so good that
+                  you'll believe you've somehow been transported to Italy for dinner!
+                </p>
+                <p class="testimonial__author">- John Nash</p>
+              </div>
+
+              <div class="testimonial-item" id="slider-3">
+                <h3 class="testimonial__title">Wonderful Wood Fired Pizza, 100% Italian Crew!</h3>
+                <p class="testimonial__quote">
+                  I've had great pizza all over the world and this restaurant is right up there
+                  in quality, taste and service.
+                </p>
+                <p class="testimonial__author">- Johnny English</p>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="testimonials-nav"> <!-- carousel navigation dots -->
+              <ul class="testimonials-nav__list">
+                <li class="testimonials-nav-item">
+                    <button class="testimonials-nav__dot active" id="dot-1"></button>
+                </li>
+                <li class="testimonials-nav-item">
+                    <button class="testimonials-nav__dot" id="dot-2"></button>
+                </li>
+                <li class="testimonials-nav-item">
+                    <button class="testimonials-nav__dot" id="dot-3"></button>
+                </li>
+              </ul>
+          </div>
+
+        </div>
+
+        <!-- START GALLERY SECTION -->
+        <div class="main-gallery">
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-4.jpg" alt="pizza">
+          </div>
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-5.jpg" alt="pizza">
+          </div>
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-6.jpg" alt="pizza">
+          </div>
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-7.jpg" alt="pizza">
+          </div>
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-8.jpg" alt="pizza">
+          </div>
+          <div class="gallery-image-box">
+            <div class="gallery-icons-box">
+              <a href="#"><i class="fas fa-heart"></i></a>
+              <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <img src="images/main/pizza-9.jpg" alt="pizza">
+          </div>
+          <a class="gallery__social" href=#>View more on Instagram</a>
+        </div>
+
+      </div>
+    </section>
+    <!-- END MAIN PAGE -->
+
+    <!-- START ORDER PAGE -->
     <section id="order">
       <div id="product-list" class="product-list container"></div>
     </section>
+    <!-- END ORDER PAGE -->
+
+    <!-- START BOOKING PAGE -->
     <section id="booking">
       <div class="booking-wrapper container"></div>
     </section>
+    <!-- END BOOKING PAGE -->
   </div>
 
   <script id="template-booking-widget" type="text/x-handlebars-template">
@@ -225,7 +358,7 @@
                    data-default="{{ amount.defaultAmount }}"> <!-- widget-amount -->
                 <h3 class="product__params-title">Select quantity</h3>
                 <a class="btn-quantity" href="#less"><i class="fas fa-minus"></i></a>
-                <input type="text" class="amount">
+                <input type="text" class="amount" value="{{ amount.defaultAmount }}">
                 <a class="btn-quantity" href="#more"><i class="fas fa-plus"></i></a>
               </div>
               <p class="product__total-price">

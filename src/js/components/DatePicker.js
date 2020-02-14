@@ -27,7 +27,7 @@ class DatePicker extends BaseWidget {
           return (date.getDay() === 1); // disable Mondays when restaurant is closed
         }
       ],
-      onChange: function(selectedDates, dateStr) {
+      onChange: (selectedDates, dateStr) => {
         /* use setter to set value from input in datepicker */
         this.value = dateStr;
       },
@@ -43,7 +43,7 @@ class DatePicker extends BaseWidget {
   }
   /* overwrite method from BaseWidget */
   renderValue() {
-    // console.log('from render value in date picker');
+    return true;
   }
 }
 
