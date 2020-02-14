@@ -11,6 +11,7 @@ export const select = {
     cart: '#cart',
     pages: '#pages',
     booking: '.booking-wrapper',
+    main: '#main',
   },
   all: {
     menuProducts: '#product-list > .product',
@@ -70,9 +71,18 @@ export const select = {
     form: '.booking-form',
     formSubmit: '.booking-form [type="submit"]',
   },
-  nav: {
-    links: '.main-nav a',
+  main: {
+    carousel: '.testimonials',
+    boxes: '.nav-box',
+    links: '.nav-box a',
   },
+  nav: {
+    links: '.nav a',
+  },
+  carousel: {
+    items: '.testimonial-item',
+    dots: '.testimonials-nav__dot',
+  }
 };
 
 export const classNames = {

@@ -2,6 +2,7 @@ import { settings, select, classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+import Main from './components/Main.js';
 
 const app = {
   initBooking() {
@@ -9,12 +10,31 @@ const app = {
     const booking = document.querySelector(select.containerOf.booking);
     new Booking(booking);
   },
+  initMenu() {
+    for(let productData in this.data.products) {
+      new Product(this.data.products[productData].id, this.data.products[productData]);
+    }
+  },
+  initMain() {
+    this.mainElement = document.querySelector(select.containerOf.main);
+    this.main = new Main(this.mainElement);
+
+    /* catch custom event from Main.js navigation to activate
+    chosen page based on event payload with id */
+    this.mainElement.addEventListener('activatePage', (e) => {
+      this.activatePage(e.detail.id);
+      /* change url hash to make sure that after refresh
+      user remains on the same page
+      add slash to prevent scrolling down */
+      window.location.hash = `#/${e.detail.id}`;
+    });
+  },
   initPages() {
     /* get one container with all pages and its children e.g. order, booking */
     this.pages = document.querySelector(select.containerOf.pages).children;
-    /* find all nav links to pages */
+    /* find all nav links in header navigation to pages */
     this.navLinks = document.querySelectorAll(select.nav.links);
-    /* activate one page as initial page, based on id in url */
+    /* activate one (first) page as initial page, based on id in url */
     const idFromHash = window.location.hash.substring(2);
     /* check if id is matching to existing page
     if yes redirect to new page
@@ -43,7 +63,6 @@ const app = {
         window.location.hash = `#/${id}`;
       });
     }
-
   },
   activatePage(pageId) {
     /* loop through all containers of pages from this.pages
@@ -55,18 +74,12 @@ const app = {
         page.id === pageId
       );
     }
-
     /* loop through nav links and add/remove class active */
     for(let link of this.navLinks) {
       link.classList.toggle(
         classNames.nav.active,
         link.getAttribute('href') === `#${pageId}`
       );
-    }
-  },
-  initMenu() {
-    for(let productData in this.data.products) {
-      new Product(this.data.products[productData].id, this.data.products[productData]);
     }
   },
   initData() {
@@ -95,6 +108,7 @@ const app = {
     this.initData();
     this.initCart();
     this.initBooking();
+    this.initMain();
   },
 };
 app.init();
