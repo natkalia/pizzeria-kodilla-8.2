@@ -7,7 +7,15 @@ Coming soon.
 
 ## Setup
 
-Coming soon.
+**Live on Heroku:** [https://italian-restaurant.herokuapp.com/](https://italian-restaurant.herokuapp.com/)
+
+**Repository**: https://github.com/natkalia/dystopias-kodilla-6.2
+
+You can also **download a zip archive** or a **clone repository** from github page:
+```bash
+git clone https://github.com/natkalia/pizzeria-kodilla-8.2.git
+```
+More info about launch/installation coming soon.
 
 ## Technologies
 Project is created with:
@@ -29,7 +37,6 @@ Project is created with:
 
 ## Todo
 - [ ] add more styling
-
 - [ ] add more RWD
 - [ ] verify/implement browser compatibility
 - [ ] add handling user clicking edit product button in Cart (now working as if it was a remove button)
