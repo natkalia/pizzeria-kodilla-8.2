@@ -28,13 +28,11 @@
   .testimonial-item {
     position: absolute;
     width: 100%;
-    top: 0;
-    left: 0;
     opacity: 0;
     padding: 0 ($base-size * 2);
 
     &.active {
-      animation: sliding linear 3s;
+      animation: autoplay ease-in-out 6s;
     }
   }
 }
