@@ -25,6 +25,7 @@ Project is created with:
 * Handlebars.js for templating engine [handlebars](https://handlebarsjs.com/)
 * flatpickr.js for datepicker in booking [flatpickr](https://flatpickr.js.org/)
 * rangeslider.js for slider in booking [rangeSlider](https://github.com/Stryzhevskyi/rangeSlider)
+* Swiper for carousel on main page [Swiper](https://swiperjs.com/)
 * json-server for fake REST API to simulate backend [json-server](https://www.npmjs.com/package/json-server)
 * custom npm task runner
 

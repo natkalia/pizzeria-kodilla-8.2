@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lato:400,300i,700%7COswald:300,500,700&amp;subset=latin-ext" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
   <link rel="stylesheet" href="./vendor/range-slider.min.css" type="text/css">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -90,10 +91,10 @@
             <img class="testimonials__image" src="images/main/pizza-3.jpg" alt="restaurant">
           </div>
 
-          <div class="testimonials-carousel">
-            <div class="testimonials-items"> <!-- carousel items -->
-
-              <div class="testimonial-item active" id="slider-1">
+          <!-- SWIPER SLIDER -->
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"> <!-- SLIDE -->
                 <h3 class="testimonial__title">Great food and great wine!</h3>
                 <p class="testimonial__quote">
                   Best pizza in town! Awesome crust with great tasting and fresh ingredients.
@@ -101,8 +102,7 @@
                 </p>
                 <p class="testimonial__author">- Margaret Osbourne</p>
               </div>
-
-              <div class="testimonial-item" id="slider-2">
+              <div class="swiper-slide"> <!-- SLIDE -->
                 <h3 class="testimonial__title">WOW! Amazing pizza!</h3>
                 <p class="testimonial__quote">
                   There's a reason why this place is always packed, the pizza is so good that
@@ -110,32 +110,17 @@
                 </p>
                 <p class="testimonial__author">- John Nash</p>
               </div>
-
-              <div class="testimonial-item" id="slider-3">
-                <h3 class="testimonial__title">Wonderful Wood Fired Pizza, 100% Italian Crew!</h3>
+              <div class="swiper-slide"> <!-- SLIDE -->
+                <h3 class="testimonial__title">Wonderful Wood Fired Pizza!</h3>
                 <p class="testimonial__quote">
                   I've had great pizza all over the world and this restaurant is right up there
                   in quality, taste and service.
                 </p>
                 <p class="testimonial__author">- Johnny English</p>
               </div>
-
             </div>
-          </div>
-
-          <div class="testimonials-nav"> <!-- carousel navigation dots -->
-              <ul class="testimonials-nav__list">
-                <li class="testimonials-nav-item">
-                    <button class="testimonials-nav__dot active" id="dot-1"></button>
-                </li>
-                <li class="testimonials-nav-item">
-                    <button class="testimonials-nav__dot" id="dot-2"></button>
-                </li>
-                <li class="testimonials-nav-item">
-                    <button class="testimonials-nav__dot" id="dot-3"></button>
-                </li>
-              </ul>
-          </div>
+            <div class="swiper-pagination"></div>  <!-- DOTS FOR SLIDER -->
+          </div>  <!-- END OF SWIPER -->
 
         </div>
 
@@ -382,6 +367,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="./vendor/range-slider.min.js"></script>
+  <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
   <script src="js/app.js" type="module"></script>
 </body>
 </html>

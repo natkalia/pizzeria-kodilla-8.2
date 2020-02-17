@@ -92,7 +92,6 @@ export const classNames = {
   },
   cart: {
     wrapperActive: 'active',
-    buttonDisabled: 'disabled',
   },
   booking: {
     loading: 'loading',
@@ -104,6 +103,12 @@ export const classNames = {
   },
   pages: {
     active: 'active',
+  },
+};
+
+export const attributesNames = {
+  cart: {
+    buttonDisabled: 'disabled',
   },
 };
 
