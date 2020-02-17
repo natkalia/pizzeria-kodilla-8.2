@@ -1,9 +1,12 @@
 
 .testimonials {
-  @include flex(row, flex-start , space-between);
+  @include flex(row, flex-start, space-between);
   width: 100%;
   flex-wrap: wrap;
   margin: ($base-size * 3) auto;
+  @include breakpoint(mobileonly) {
+    @include flex(column, center, center);
+  }
 }
 
 .testimonials-img {
@@ -17,50 +20,23 @@
   }
 }
 
-.testimonials-carousel {
-  flex: 65%;
-  position: relative;
-
-  .testimonial__title {
-    @extend .h2;
-  }
-
-  .testimonial-item {
-    position: absolute;
-    width: 100%;
-    opacity: 0;
-    padding: 0 ($base-size * 2);
-
-    &.active {
-      animation: autoplay ease-in-out 6s;
-    }
-  }
+.swiper-container {
+  flex: 2;
+  margin: 0 ($base-size*3);
 }
 
-.testimonials-nav {
-  display: inline-block;
-  width: 100%;
+.swiper-wrapper {
+  margin: 0 0 ($base-size*5) 0;
+}
 
-  &__list {
-    list-style: none;
-    text-align: center;
-  }
+.swiper-pagination-bullet-active {
+  background-color: $color-dark;
+}
 
-  .testimonials-nav-item {
-    display: inline-block;
-    margin: 0 ($base-size/2);
-  }
+.swiper-pagination {
+  text-align: left;
+}
 
-  &__dot {
-    display: block;
-    background-color: $color-light-grey;
-    border: none;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-
-    &.active {
-      background-color: $color-darkest;
-    }
-  }
+.testimonial__title {
+  @extend .h2;
 }

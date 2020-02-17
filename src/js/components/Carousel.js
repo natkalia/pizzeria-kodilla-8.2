@@ -1,4 +1,4 @@
-import { select } from '../settings.js';
+/* global Swiper */
 
 class Carousel {
   constructor(wrapper) {
@@ -9,29 +9,26 @@ class Carousel {
   getElements(wrapper) {
     this.dom = {};
     this.dom.wrapper = wrapper;
-    this.dom.items = this.dom.wrapper.querySelectorAll(select.carousel.items);
-    this.dom.dots = this.dom.wrapper.querySelectorAll(select.carousel.dots);
   }
 
   initCarousel() {
-    this.active = 0;
-    this.last = this.dom.items.length - 1;
-    /* set automatic carousel items change */
-    setInterval(() => {
-      this.active === this.last ? this.active = 0 : this.active++;
-      this.setActive();
-    }, 3000);
-  }
+    /* initialize Swiper */
+    new Swiper ('.swiper-container', {
+      loop: true,
+      centeredSlides: true,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
 
-  setActive() {
-    /* set item active */
-    this.dom.items.forEach((item, i) => {
-      i === this.active ? item.classList.add('active') : item.classList.remove('active');
-    });
-    /* set nav dot active */
-    this.dom.dots.forEach((dot, i) => {
-      i === this.active ? dot.classList.add('active') : dot.classList.remove('active');
-    });
+    /* use swiper on main page */
+    const mainSwiper = this.dom.wrapper.querySelector('.swiper-container').swiper;
+    mainSwiper.slideNext();
   }
 }
 
