@@ -1,4 +1,4 @@
-import { settings, select, classNames, templates } from '../settings.js';
+import { settings, select, classNames, templates, attributesNames } from '../settings.js';
 import CartProduct from './CartProduct.js';
 import utils from '../utils.js';
 
@@ -18,6 +18,7 @@ class Cart {
     this.dom.productList = this.dom.wrapper.querySelector(select.cart.productList);
     this.dom.form = this.dom.wrapper.querySelector(select.cart.form);
     this.dom.formSubmit = this.dom.wrapper.querySelector(select.cart.formSubmit);
+    this.dom.formAttribute = this.dom.wrapper.querySelector(attributesNames.cart.buttonDisabled);
     this.dom.phone = this.dom.wrapper.querySelector(select.cart.phone);
     this.dom.address = this.dom.wrapper.querySelector(select.cart.address);
     this.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
@@ -43,6 +44,14 @@ class Cart {
       e.preventDefault();
       /* additional validation to deny sending order if no products in cart */
       this.products.length >= 1 ? this.sendOrder() : alert('Cannot send empty order');
+    });
+
+    /* prevent user from sending order by pressing enter in input in cart */
+    this.dom.form.addEventListener('keypress', (e) => {
+      if (event.keyCode === 13) {
+        e.preventDefault();
+        // alert('Please press ORDER button to send your order!');
+      }
     });
   }
   add(menuProduct) {
@@ -131,12 +140,12 @@ class Cart {
         .then(res => console.log('order was sent to endpoint', res)));
   }
   ifSendOrder() {
-    /* check if there are any products in cart left and add/remove disabled in button */
+    /* check if there are any products in cart left and add/remove disabled in form/button */
     if (this.products.length <= 0) {
-      this.dom.formSubmit.classList.add(classNames.cart.buttonDisabled);
+      this.dom.formSubmit.setAttribute(attributesNames.cart.buttonDisabled, 'true');
       this.dom.formSubmit.setAttribute('title', 'Sorry, you cannot send an empty order');
     } else {
-      this.dom.formSubmit.classList.remove(classNames.cart.buttonDisabled);
+      this.dom.formSubmit.removeAttribute(attributesNames.cart.buttonDisabled);
       this.dom.formSubmit.removeAttribute('title');
     }
   }
