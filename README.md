@@ -9,7 +9,7 @@ Coming soon.
 
 **Live on Heroku:** [https://italian-restaurant.herokuapp.com/](https://italian-restaurant.herokuapp.com/)
 
-**Repository**: https://github.com/natkalia/dystopias-kodilla-6.2
+**Repository**: https://github.com/natkalia/pizzeria-kodilla-8.2.git
 
 You can also **download a zip archive** or a **clone repository** from github page:
 ```bash
